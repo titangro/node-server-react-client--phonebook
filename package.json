@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"command1 arg\" \"command2 arg\""
+    "server": "yarn --cwd server dev",
+    "client": "yarn --cwd client start",
+    "start": "concurrently \"yarn run server\" \"yarn run client\""
   },
   "dependencies": {
     "concurrently": "^5.3.0"
   },
   "author": "Roman Grankov <mustbe09@yandex.ru>",
-  "license": "ISC"
+  "license": "ISC",
+  "proxy": "http://localhost:3005"
 }
