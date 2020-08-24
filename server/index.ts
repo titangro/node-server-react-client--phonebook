@@ -12,9 +12,14 @@ const DB_CONN = process.env.DB_CONN || '';
 const PORT = +(process.env.PORT || 3015);
 const HOST = process.env.HOST || '';
 
-mongoose.connect(DB_CONN, config.db.options).then(() => {
-  console.log('MONGO IS CONNECTED');
-});
+const handleError = (error: Record<string, any>) => console.log(error);
+
+mongoose
+  .connect(DB_CONN, config.db.options)
+  .then(() => {
+    console.log('MONGO IS CONNECTED');
+  })
+  .catch((error) => handleError(error));
 
 // Middlewares
 // TODO: realise initMiddleware
