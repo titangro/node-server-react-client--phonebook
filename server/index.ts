@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
 import { config } from './config';
-import { initializeModules } from './modules';
+import { initializeModules } from 'modules';
 
 const app = express();
 dotenv.config();
@@ -14,13 +14,6 @@ const HOST = process.env.HOST || '';
 
 const handleError = (error: Record<string, any>) => console.log(error);
 
-mongoose
-  .connect(DB_CONN, config.db.options)
-  .then(() => {
-    console.log('MONGO IS CONNECTED');
-  })
-  .catch((error) => handleError(error));
-
 // Middlewares
 // TODO: realise initMiddleware
 app.use(express.json());
@@ -29,6 +22,15 @@ app.use(express.json());
 // Modules
 initializeModules(app, '/api');
 
-app.listen(PORT, HOST, () => {
-  console.log(PORT);
+app.listen(PORT, HOST, async () => {
+  console.log('Server ready!');
+
+  await mongoose
+    .connect(DB_CONN, config.db.options)
+    .then(() => {
+      console.log('MONGO IS CONNECTED');
+    })
+    .catch((error) => handleError(error));
+
+  console.log('Listening on port ', PORT);
 });

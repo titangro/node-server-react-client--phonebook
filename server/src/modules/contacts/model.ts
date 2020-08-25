@@ -3,6 +3,7 @@ import { Schema, model, Document } from 'mongoose';
 export interface Contact extends Document {
   number: string;
   name: string;
+  password: string;
   age?: number;
   admin?: boolean;
 }

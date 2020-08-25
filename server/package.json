@@ -8,9 +8,14 @@
     "dev": "nodemon index.ts"
   },
   "dependencies": {
+    "@types/express-jwt": "^0.0.42",
+    "@types/jsonwebtoken": "^8.5.0",
+    "argon2": "^0.27.0",
     "bcrypt": "^5.0.0",
+    "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.27",
     "passport": "^0.4.1"

@@ -1,30 +1,26 @@
 import { Response, Request } from 'express';
 import { ContactModel } from './model';
+import { getResponseError } from 'helpers/getResponseError';
 
 export const createContact = async (req: Request, res: Response) => {
   try {
-    const { number, name, age, admin } = req.body;
+    const { number, name, password, age, admin } = req.body;
 
     if (!number || !name) {
-      return res.status(400).json({
-        error: true,
-        message: 'Where is data?!',
-      });
+      return getResponseError(res, 'Where is data?!', 400);
     }
 
     const contact = await ContactModel.create({
       name,
       number,
+      password,
       age,
       admin,
     });
 
     return res.json(contact);
   } catch (error) {
-    return res.status(500).json({
-      error: true,
-      message: error,
-    });
+    return getResponseError(res, error, 500);
   }
 };
 
@@ -34,10 +30,7 @@ export const getContacts = async (req: Request, res: Response) => {
 
     res.json(contacts);
   } catch (error) {
-    return res.status(500).json({
-      error: true,
-      message: error,
-    });
+    return getResponseError(res, error, 500);
   }
 };
 
@@ -46,18 +39,12 @@ export const getContact = async (req: Request, res: Response) => {
     const contactById = await ContactModel.findById(req.params.id);
 
     if (!contactById) {
-      return res.status(404).json({
-        error: true,
-        message: 'No such contact',
-      });
+      return getResponseError(res, 'No such contact', 404);
     }
 
     return res.json(contactById);
   } catch (error) {
-    return res.status(404).json({
-      error: true,
-      message: `Is't corrent id. Error: ${error}`,
-    });
+    return getResponseError(res, `Is't corrent id. Error: ${error}`, 500);
   }
 };
 
@@ -68,14 +55,8 @@ export const updateContact = async (req: Request, res: Response) => {
     const contactById = await ContactModel.findById(req.params.id);
 
     if (!contactById) {
-      return res.status(404).json({
-        error: true,
-        message: 'No such contact to update',
-      });
+      return getResponseError(res, 'No such contact to update', 404);
     }
-
-    contactById.number = number;
-    contactById.name = name;
 
     if (age) {
       contactById.age = age;
@@ -89,10 +70,7 @@ export const updateContact = async (req: Request, res: Response) => {
 
     return res.json(contactById);
   } catch (error) {
-    return res.status(500).json({
-      error: true,
-      message: error,
-    });
+    return getResponseError(res, error, 500);
   }
 };
 
@@ -101,17 +79,9 @@ export const deleteContact = async (req: Request, res: Response) => {
     const contactById = await ContactModel.findByIdAndDelete(req.params.id);
 
     if (!contactById) {
-      return res.status(404).json({
-        error: true,
-        message: 'No such contact to delete',
-      });
+      return getResponseError(res, 'No such contact to delete', 404);
     }
-
-    return res.json(contactById);
   } catch (error) {
-    return res.status(500).json({
-      error: true,
-      message: error,
-    });
+    return getResponseError(res, error, 500);
   }
 };

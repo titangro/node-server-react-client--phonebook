@@ -62,7 +62,8 @@
 
     /* Advanced Options */
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */,
-    "outDir": "./build"
+    "outDir": "./build",
+    "baseUrl": "./src"
   },
   "lib": ["es2015"]
 }
