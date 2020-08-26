@@ -1,15 +1,11 @@
-import { Response } from 'express';
 import * as jwt from 'jsonwebtoken';
-import { Contact } from '../contacts/model';
+import { User } from '../../modules/auth/model';
 
-export const generateJWT = (contact: Contact) => {
+export const generateJWT = (user: User) => {
   return jwt.sign(
     {
-      data: {
-        _id: contact._id,
-        name: contact.name,
-        number: contact.number,
-      },
+      userId: user.id,
+      contactId: user.constactId,
     },
     process.env.SECRET_CODE || '',
     { expiresIn: '6h' },

@@ -3,9 +3,9 @@ import { Schema, model, Document } from 'mongoose';
 export interface Contact extends Document {
   number: string;
   name: string;
-  password: string;
   age?: number;
   admin?: boolean;
+  userId?: string;
 }
 
 const contactSchema = new Schema({
@@ -18,9 +18,8 @@ const contactSchema = new Schema({
     required: true,
   },
   age: Number,
-  admin: {
-    type: Boolean,
-    default: false,
+  userId: {
+    type: Schema.Types.ObjectId,
   },
 });
 

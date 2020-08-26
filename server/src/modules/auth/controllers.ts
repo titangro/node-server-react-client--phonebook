@@ -1,66 +1,38 @@
-import * as argon2 from 'argon2';
-import { randomBytes } from 'crypto';
+import { ContactModel } from '../../modules/contacts/model';
+import bcrypt from 'bcrypt';
 
-import { ContactModel } from 'modules/contacts/model';
+import { UserModel } from './model';
 
 import { generateJWT } from './helpers';
-import { getResponseError } from 'helpers/getResponseError';
+import { getResponseError } from '../../helpers/getResponseError';
 
 import { Response, Request } from 'express';
 
 export const login = async (req: Request, res: Response) => {
   try {
-    const { name, password } = req.params;
+    const { email, password } = req.body;
 
-    if (!name) {
-      return getResponseError(res, 'Contact name is wrong', 500);
+    if (!email) {
+      return getResponseError(res, 'User email is wrong', 500);
     }
 
-    const contactRecord = await ContactModel.findOne({
-      name,
+    const userRecord = await UserModel.findOne({
+      email,
     });
 
-    if (!contactRecord) {
+    if (!userRecord) {
       return getResponseError(res, 'User not found', 404);
     } else {
-      const correctPassword = await argon2.verify(
-        contactRecord.password,
+      const correctPassword = await bcrypt.compare(
         password,
+        userRecord.password,
       );
       if (!correctPassword) {
         return getResponseError(res, 'Incorrect password', 500);
       }
     }
 
-    return res.status(200).json({
-      contact: contactRecord,
-      token: generateJWT(contactRecord),
-    });
-  } catch (error) {
-    return getResponseError(res, error, 500);
-  }
-};
-
-export const loginAs = async (req: Request, res: Response) => {
-  try {
-    const { name } = req.params;
-
-    if (!name) {
-      return getResponseError(res, 'Contact name is wrong', 500);
-    }
-
-    const contactRecord = await ContactModel.findOne({
-      name,
-    });
-
-    if (!contactRecord) {
-      return getResponseError(res, 'User not found', 404);
-    }
-
-    return res.status(200).json({
-      contact: contactRecord,
-      token: generateJWT(contactRecord),
-    });
+    return generateJWT(userRecord);
   } catch (error) {
     return getResponseError(res, error, 500);
   }
@@ -68,7 +40,30 @@ export const loginAs = async (req: Request, res: Response) => {
 
 export const signUp = async (req: Request, res: Response) => {
   try {
+    const { password, name, email, number } = req.body;
+    console.log('signUp -> password', password);
+    const passwordHashed = await bcrypt.hash(password, 10);
+
+    // TODO: validate if user is created?
+    const userRecord = await UserModel.create({
+      password: passwordHashed,
+      email,
+      name,
+      number,
+    });
+
+    const { id: contactId } = await ContactModel.create({
+      name,
+      number,
+      userId: userRecord.id,
+    });
+
+    userRecord.constactId = contactId;
+    userRecord.save();
+
+    return res.json(generateJWT(userRecord));
   } catch (error) {
+    console.log('Is Error', error);
     return getResponseError(res, error, 500);
   }
 };

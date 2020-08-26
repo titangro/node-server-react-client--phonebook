@@ -1,10 +1,10 @@
 import { Response, Request } from 'express';
 import { ContactModel } from './model';
-import { getResponseError } from 'helpers/getResponseError';
+import { getResponseError } from '../../helpers/getResponseError';
 
 export const createContact = async (req: Request, res: Response) => {
   try {
-    const { number, name, password, age, admin } = req.body;
+    const { number, name, age, admin } = req.body;
 
     if (!number || !name) {
       return getResponseError(res, 'Where is data?!', 400);
@@ -13,7 +13,6 @@ export const createContact = async (req: Request, res: Response) => {
     const contact = await ContactModel.create({
       name,
       number,
-      password,
       age,
       admin,
     });
@@ -56,6 +55,14 @@ export const updateContact = async (req: Request, res: Response) => {
 
     if (!contactById) {
       return getResponseError(res, 'No such contact to update', 404);
+    }
+
+    if (number) {
+      contactById.number = number;
+    }
+
+    if (name) {
+      contactById.name = name;
     }
 
     if (age) {

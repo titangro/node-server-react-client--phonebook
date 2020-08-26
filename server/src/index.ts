@@ -2,8 +2,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
-import { config } from './config';
-import { initializeModules } from 'modules';
+import { config } from '../config';
+import { initializeModules } from './modules';
 
 const app = express();
 dotenv.config();

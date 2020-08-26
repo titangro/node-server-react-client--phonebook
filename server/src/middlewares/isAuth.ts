@@ -1,4 +1,3 @@
-import * as jwt from 'express-jwt';
 import { Request } from 'express';
 
 export const getTokenFromHeader = (req: Request) => {
@@ -10,8 +9,8 @@ export const getTokenFromHeader = (req: Request) => {
   }
 };
 
-export const isAuth = jwt({
-  secret: process.env.SECRET_CODE,
-  userProperty: 'token',
-  getToken: getTokenFromHeader,
-});
+// export default jwt({
+//   secret: process.env.SECRET_CODE,
+//   userProperty: 'token',
+//   getToken: getTokenFromHeader,
+// });
