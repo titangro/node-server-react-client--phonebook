@@ -4,7 +4,7 @@ export const config = {
     options: {
       useUnifiedTopology: true,
       useNewUrlParser: true,
-      createIndexes: true,
+      useCreateIndex: true,
     },
   },
 };

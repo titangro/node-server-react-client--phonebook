@@ -1,4 +1,4 @@
-import { Request } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 export const getTokenFromHeader = (req: Request) => {
   if (
@@ -14,3 +14,12 @@ export const getTokenFromHeader = (req: Request) => {
 //   userProperty: 'token',
 //   getToken: getTokenFromHeader,
 // });
+
+export const privateRoute = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  console.log(req, res);
+  return next();
+};

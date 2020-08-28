@@ -10,7 +10,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     //   return getResponseError(res, 'User not found', 401);
     // }
     // req.body = user;
-    // return next();
+    return next();
   } catch (error) {
     return getResponseError(res, error, 500);
   }

@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { ContactModel } from './model';
-import { getResponseError } from '../../helpers/getResponseError';
+import { getResponseError } from 'helpers/getResponseError';
 
 export const createContact = async (req: Request, res: Response) => {
   try {

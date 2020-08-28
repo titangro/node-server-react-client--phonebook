@@ -4,8 +4,8 @@
   "description": "node-phonebook",
   "main": "index.ts",
   "scripts": {
-    "start": "tsc && node index.ts",
-    "dev": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec ts-node src/index.ts"
+    "start": "dev",
+    "dev": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec NODE_PATH=./src ts-node ./src/index.ts"
   },
   "dependencies": {
     "argon2": "^0.27.0",

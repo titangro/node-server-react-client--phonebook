@@ -1,16 +1,18 @@
 import { Router } from 'express';
 import * as controllers from './controllers';
 
+import { privateRoute } from 'middlewares/private';
+
 const router = Router();
 
-router.post('/', controllers.createContact);
+router.post('/', [privateRoute], controllers.createContact);
 
-router.get('/', controllers.getContacts);
+router.get('/', [privateRoute], controllers.getContacts);
 
-router.get('/:id', controllers.getContact);
+router.get('/:id', [privateRoute], controllers.getContact);
 
-router.put('/:id', controllers.updateContact);
+router.put('/:id', [privateRoute], controllers.updateContact);
 
-router.delete('/:id', controllers.deleteContact);
+router.delete('/:id', [privateRoute], controllers.deleteContact);
 
 export default router;
