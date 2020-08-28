@@ -38,7 +38,7 @@ export const login = async (req: Request, res: Response) => {
       }
     }
 
-    return generateJWT(userRecord);
+    return res.json(`Bearer ${generateJWT(userRecord)}`);
   } catch (error) {
     return getResponseError(res, error, 500);
   }
@@ -80,7 +80,7 @@ export const signUp = async (req: Request, res: Response) => {
     userRecord.save();
 
     // в ответе возвращаем только токен
-    return res.json(generateJWT(userRecord));
+    return res.json(`Bearer ${generateJWT(userRecord)}`);
   } catch (error) {
     return getResponseError(res, error, 500);
   }

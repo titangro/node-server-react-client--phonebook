@@ -3,7 +3,7 @@ import * as controllers from './controllers';
 
 const router = Router();
 
-router.post('/auth', controllers.login);
+router.post('/login', controllers.login);
 
 router.post('/signup', controllers.signUp);
 

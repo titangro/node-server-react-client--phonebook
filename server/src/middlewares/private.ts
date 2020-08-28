@@ -1,4 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
+import { getResponseError } from 'helpers/getResponseError';
+import * as jwt from 'jsonwebtoken';
 
 export const getTokenFromHeader = (req: Request) => {
   if (
@@ -9,17 +11,21 @@ export const getTokenFromHeader = (req: Request) => {
   }
 };
 
-// export default jwt({
-//   secret: process.env.SECRET_CODE,
-//   userProperty: 'token',
-//   getToken: getTokenFromHeader,
-// });
-
 export const privateRoute = (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  console.log(req, res);
+  const token = getTokenFromHeader(req);
+
+  jwt.verify(token || '', process.env.SECRET_CODE || '', function (
+    error,
+    decoded,
+  ) {
+    if (error) {
+      return getResponseError(res, 'You are not authorized!', 500);
+    }
+  });
+
   return next();
 };
