@@ -66,7 +66,7 @@ export const updateContact = async (req: Request, res: Response) => {
       return getResponseError(res, 'No such contact to update', 404);
     }
 
-    // проходим по каждому параметру и, если он существует, - обноляем
+    // проходим по каждому параметру и, если он существует, - обновляем
     if (number) {
       contactById.number = number;
     }

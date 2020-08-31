@@ -1,11 +1,11 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document, Types } from 'mongoose';
 
 export interface Contact extends Document {
   number: string;
   name: string;
   age?: number;
   admin?: boolean;
-  userId?: string;
+  userId?: Types.ObjectId;
 }
 
 const contactSchema = new Schema({

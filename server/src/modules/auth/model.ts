@@ -1,12 +1,13 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document, Types } from 'mongoose';
 
 export interface User extends Document {
   email: string;
   password: string;
   role?: string;
   name?: string;
-  constactId?: number;
+  contactId?: number;
   number: string;
+  groupsIds?: Types.ObjectId[];
 }
 
 const userSchema = new Schema({
@@ -25,12 +26,15 @@ const userSchema = new Schema({
     type: String,
     default: 'user', // Possible values: user | admin
   },
-  constactId: {
+  contactId: {
     type: Schema.Types.ObjectId,
   },
   number: {
     type: String,
     required: true,
+  },
+  groupsIds: {
+    type: [Schema.Types.ObjectId],
   },
 });
 

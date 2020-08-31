@@ -14,13 +14,13 @@ enum GroupTypes {
 export interface Group extends Document {
   label: keyof typeof GroupLabels;
   type: keyof typeof GroupTypes;
-  contacts: Types.ObjectId[];
+  contactsIds: Types.ObjectId[];
 }
 
 const groupSchema = new Schema({
   label: String,
   type: String,
-  contacts: {
+  contactsIds: {
     type: [Types.ObjectId],
   },
 });

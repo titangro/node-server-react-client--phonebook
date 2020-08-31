@@ -76,7 +76,7 @@ export const signUp = async (req: Request, res: Response) => {
     });
 
     // добавляем id контакта для синхронизацией с пользователем, сохраняем изменения
-    userRecord.constactId = contactId;
+    userRecord.contactId = contactId;
     userRecord.save();
 
     // в ответе возвращаем только токен
