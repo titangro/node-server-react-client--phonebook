@@ -1,5 +1,10 @@
 import { Schema, model, Document, Types } from 'mongoose';
 
+export const values = {
+  labels: ['Family', 'Colleagues', 'Friends'],
+  types: ['Open', 'Close'],
+};
+
 enum GroupLabels {
   Family,
   Colleagues,
@@ -14,14 +19,21 @@ enum GroupTypes {
 export interface Group extends Document {
   label: keyof typeof GroupLabels;
   type: keyof typeof GroupTypes;
-  contacts: Types.ObjectId[];
+  contactsIds: [Types.ObjectId];
 }
 
 const groupSchema = new Schema({
-  label: String,
-  type: String,
-  contacts: {
+  label: {
+    type: String,
+    required: true,
+  },
+  type: {
+    type: String,
+    required: true,
+  },
+  contactsIds: {
     type: [Types.ObjectId],
+    default: [],
   },
 });
 

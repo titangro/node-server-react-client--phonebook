@@ -38,7 +38,7 @@ export const login = async (req: Request, res: Response) => {
       }
     }
 
-    return res.json(`Bearer ${generateJWT(userRecord)}`);
+    return res.json(generateJWT(userRecord));
   } catch (error) {
     return getResponseError(res, error, 500);
   }
@@ -76,11 +76,11 @@ export const signUp = async (req: Request, res: Response) => {
     });
 
     // добавляем id контакта для синхронизацией с пользователем, сохраняем изменения
-    userRecord.constactId = contactId;
+    userRecord.contactId = contactId;
     userRecord.save();
 
     // в ответе возвращаем только токен
-    return res.json(`Bearer ${generateJWT(userRecord)}`);
+    return res.json(generateJWT(userRecord));
   } catch (error) {
     return getResponseError(res, error, 500);
   }

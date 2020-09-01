@@ -5,7 +5,7 @@ export const generateJWT = (user: User) => {
   return jwt.sign(
     {
       userId: user.id,
-      contactId: user.constactId,
+      contactId: user.contactId,
     },
     process.env.SECRET_CODE || '',
     { expiresIn: '6h' },
