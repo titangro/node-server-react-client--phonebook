@@ -1,7 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GroupModel = void 0;
+exports.GroupModel = exports.values = void 0;
 const mongoose_1 = require("mongoose");
+exports.values = {
+    labels: ['Family', 'Colleagues', 'Friends'],
+    types: ['Open', 'Close'],
+};
 var GroupLabels;
 (function (GroupLabels) {
     GroupLabels[GroupLabels["Family"] = 0] = "Family";
@@ -14,10 +18,17 @@ var GroupTypes;
     GroupTypes[GroupTypes["Close"] = 1] = "Close";
 })(GroupTypes || (GroupTypes = {}));
 const groupSchema = new mongoose_1.Schema({
-    label: String,
-    type: String,
-    contacts: {
+    label: {
+        type: String,
+        required: true,
+    },
+    type: {
+        type: String,
+        required: true,
+    },
+    contactsIds: {
         type: [mongoose_1.Types.ObjectId],
+        default: [],
     },
 });
 exports.GroupModel = mongoose_1.model('Group', groupSchema);

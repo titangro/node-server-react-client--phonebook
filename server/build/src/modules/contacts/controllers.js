@@ -18,12 +18,14 @@ exports.createContact = (req, res) => __awaiter(void 0, void 0, void 0, function
         if (!number || !name) {
             return getResponseError_1.getResponseError(res, 'Where is data?!', 400);
         }
+        // создаем контакт без привязки к пользователю
         const contact = yield model_1.ContactModel.create({
             name,
             number,
             age,
             admin,
         });
+        // в ответе возвращаем контакт
         return res.json(contact);
     }
     catch (error) {
@@ -32,6 +34,7 @@ exports.createContact = (req, res) => __awaiter(void 0, void 0, void 0, function
 });
 exports.getContacts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // получаем список контактов
         const contacts = yield model_1.ContactModel.find({});
         res.json(contacts);
     }
@@ -41,10 +44,13 @@ exports.getContacts = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 exports.getContact = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // получаение контакта по id
         const contactById = yield model_1.ContactModel.findById(req.params.id);
         if (!contactById) {
+            // 404 ошибка если контакт не найден
             return getResponseError_1.getResponseError(res, 'No such contact', 404);
         }
+        // возвращаем в ответе найденный контакт
         return res.json(contactById);
     }
     catch (error) {
@@ -53,11 +59,15 @@ exports.getContact = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.updateContact = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // получение параметров для обновления
         const { number, name, age, admin } = req.body;
+        // ищем контакт по id
         const contactById = yield model_1.ContactModel.findById(req.params.id);
         if (!contactById) {
+            // 404 ошибка если контакт не найден
             return getResponseError_1.getResponseError(res, 'No such contact to update', 404);
         }
+        // проходим по каждому параметру и, если он существует, - обновляем
         if (number) {
             contactById.number = number;
         }
@@ -70,7 +80,9 @@ exports.updateContact = (req, res) => __awaiter(void 0, void 0, void 0, function
         if (admin) {
             contactById.admin = admin;
         }
+        // сохраняем имзененный контакт в базе
         yield contactById.save();
+        // возвращаем обновленный контакт в ответе
         return res.json(contactById);
     }
     catch (error) {
@@ -79,10 +91,14 @@ exports.updateContact = (req, res) => __awaiter(void 0, void 0, void 0, function
 });
 exports.deleteContact = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // поиск и удаление контакта по id
         const contactById = yield model_1.ContactModel.findByIdAndDelete(req.params.id);
         if (!contactById) {
+            // 404 ошибка если контакт не найден
             return getResponseError_1.getResponseError(res, 'No such contact to delete', 404);
         }
+        // возвращаем удаленный контакт (можно возращать true)
+        return res.json(contactById);
     }
     catch (error) {
         return getResponseError_1.getResponseError(res, error, 500);

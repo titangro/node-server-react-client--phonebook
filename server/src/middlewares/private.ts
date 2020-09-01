@@ -11,14 +11,20 @@ export const privateRoute = (
 ) => {
   const token = getTokenFromHeaders(req);
 
+  let verifyError;
+
   jwt.verify(token || '', process.env.SECRET_CODE || '', function (
     error,
     decoded,
   ) {
     if (error) {
-      return getResponseError(res, 'You are not authorized!', 500);
+      verifyError = { error, note: 'You are not authorized!' };
     }
   });
+
+  if (verifyError) {
+    return getResponseError(res, verifyError, 500);
+  }
 
   return next();
 };

@@ -18,12 +18,16 @@ const userSchema = new mongoose_1.Schema({
         type: String,
         default: 'user',
     },
-    constactId: {
+    contactId: {
         type: mongoose_1.Schema.Types.ObjectId,
     },
     number: {
         type: String,
         required: true,
+    },
+    groupsIds: {
+        type: [mongoose_1.Schema.Types.ObjectId],
+        default: [],
     },
 });
 exports.UserModel = mongoose_1.model('User', userSchema);

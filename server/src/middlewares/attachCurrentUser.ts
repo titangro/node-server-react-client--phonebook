@@ -17,7 +17,6 @@ export const attachCurrentUser = async (
       process.env.SECRET_CODE || '',
     ) as Record<string, string>;
     const { id: userId } = decodedUser;
-    console.log('decodedUser --> ', decodedUser);
 
     const user = await UserModel.findOne({ id: userId });
     if (!user) {

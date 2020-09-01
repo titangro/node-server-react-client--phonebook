@@ -42,7 +42,7 @@ exports.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 return getResponseError_1.getResponseError(res, 'Incorrect password', 500);
             }
         }
-        return res.json(`Bearer ${helpers_1.generateJWT(userRecord)}`);
+        return res.json(helpers_1.generateJWT(userRecord));
     }
     catch (error) {
         return getResponseError_1.getResponseError(res, error, 500);
@@ -75,10 +75,10 @@ exports.signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             userId: userRecord.id,
         });
         // добавляем id контакта для синхронизацией с пользователем, сохраняем изменения
-        userRecord.constactId = contactId;
+        userRecord.contactId = contactId;
         userRecord.save();
         // в ответе возвращаем только токен
-        return res.json(`Bearer ${helpers_1.generateJWT(userRecord)}`);
+        return res.json(helpers_1.generateJWT(userRecord));
     }
     catch (error) {
         return getResponseError_1.getResponseError(res, error, 500);

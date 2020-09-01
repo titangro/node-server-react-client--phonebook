@@ -19,22 +19,21 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.privateRoute = exports.getTokenFromHeader = void 0;
+exports.privateRoute = void 0;
 const getResponseError_1 = require("helpers/getResponseError");
 const jwt = __importStar(require("jsonwebtoken"));
-exports.getTokenFromHeader = (req) => {
-    if (req.headers.authorization &&
-        req.headers.authorization.split(' ')[0] === 'Bearer') {
-        return req.headers.authorization.split(' ')[1];
-    }
-};
+const getTokenFromHeaders_1 = require("helpers/getTokenFromHeaders");
 exports.privateRoute = (req, res, next) => {
-    const token = exports.getTokenFromHeader(req);
+    const token = getTokenFromHeaders_1.getTokenFromHeaders(req);
+    let verifyError;
     jwt.verify(token || '', process.env.SECRET_CODE || '', function (error, decoded) {
         if (error) {
-            return getResponseError_1.getResponseError(res, 'You are not authorized!', 500);
+            verifyError = { error, note: 'You are not authorized!' };
         }
     });
+    if (verifyError) {
+        return getResponseError_1.getResponseError(res, verifyError, 500);
+    }
     return next();
 };
 //# sourceMappingURL=private.js.map

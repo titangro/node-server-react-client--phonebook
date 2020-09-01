@@ -24,7 +24,7 @@ const jwt = __importStar(require("jsonwebtoken"));
 exports.generateJWT = (user) => {
     return jwt.sign({
         userId: user.id,
-        contactId: user.constactId,
+        contactId: user.contactId,
     }, process.env.SECRET_CODE || '', { expiresIn: '6h' });
 };
 //# sourceMappingURL=helpers.js.map

@@ -35,6 +35,7 @@ const userSchema = new Schema({
   },
   groupsIds: {
     type: [Schema.Types.ObjectId],
+    default: [],
   },
 });
 

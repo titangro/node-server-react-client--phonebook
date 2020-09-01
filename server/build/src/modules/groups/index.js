@@ -21,7 +21,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const controllers = __importStar(require("./controllers"));
+const private_1 = require("middlewares/private");
+const attachCurrentUser_1 = require("middlewares/attachCurrentUser");
 const router = express_1.Router();
-router.get('/', controllers.getGroups);
+router.post('/', [private_1.privateRoute, attachCurrentUser_1.attachCurrentUser], controllers.createGroup);
+router.get('/', [private_1.privateRoute, attachCurrentUser_1.attachCurrentUser], controllers.getGroups);
+router.get('/:id', [private_1.privateRoute, attachCurrentUser_1.attachCurrentUser], controllers.getGroup);
+router.put('/:id', [private_1.privateRoute, attachCurrentUser_1.attachCurrentUser], controllers.updateGroup);
+router.delete('/:id', [private_1.privateRoute, attachCurrentUser_1.attachCurrentUser], controllers.deleteGroup);
 exports.default = router;
 //# sourceMappingURL=index.js.map
