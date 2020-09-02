@@ -38,8 +38,8 @@ export const getContacts = async (req: Request, res: Response) => {
 
 export const getContact = async (req: Request, res: Response) => {
   try {
-    // получаение контакта по id
     const contactById = await ContactModel.findById(req.params.id);
+    // получаение контакта по id
 
     if (!contactById) {
       // 404 ошибка если контакт не найден

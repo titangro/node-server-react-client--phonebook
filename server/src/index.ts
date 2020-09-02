@@ -3,8 +3,10 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import path from 'path';
 
-import { config } from '../config';
 import { initializeModules } from './modules';
+
+import { __prod__ } from './constants';
+import { config } from '../config';
 
 path.resolve(__filename);
 
